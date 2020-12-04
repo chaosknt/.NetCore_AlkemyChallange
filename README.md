@@ -1,34 +1,34 @@
 # AlkemyChallange
 
-CHALLENGE C# - ALKEMY LABS
+<h3>CHALLENGE C# - ALKEMY LABS</h3>
 
-Requerimientos
-Deberás crear una aplicación en C# utilizando el framework MVC. El objetivo es simular
+<h3>Requerimientos</h3>
+<p>Deberás crear una aplicación en C# utilizando el framework MVC. El objetivo es simular
 una aplicación web donde los alumnos de una universidad puedan inscribirse a las
-materias que desean cursar.
+materias que desean cursar.</p>
 
-Base de datos
-Leyendo los requerimientos deberás armar la base de datos que consideres apropiada
+<h3>Base de datos</h3>
+<p>Leyendo los requerimientos deberás armar la base de datos que consideres apropiada
 para que todo funcione correctamente. El tipo de base de datos debe ser relacional, no
 importa que sea MySQL o SQL Server. Todos los nombres de tablas, columnas, índices
-deben estar en inglés y usar underscore para separar palabras.
-Es necesario que utilices Entity Frameworks para acceder a la base de datos.
-Registro
-En la aplicación hay dos tipos de usuarios: administrador de sitio y alumno.
+deben estar en inglés y usar underscore para separar palabras.</p>
+<p>Es necesario que utilices Entity Frameworks para acceder a la base de datos.
+Registro</p>
+<p>En la aplicación hay dos tipos de usuarios: administrador de sitio y alumno.
 Ambos utilizan el mismo login, especificando si son alumnos o administradores.
 El administrador podrá gestionar las materias, profesores, cupos de inscripción.
 El alumno ingresa con su DNI y legajo y podrá seleccionar las materias en las que desea
 inscribirse. Tomar como premisa que no hay materias correlativas y todos los alumnos
-regulares se encuentran registrados en la base de datos.
+regulares se encuentran registrados en la base de datos.</p>
 
-El usuario administrador podrá realizar las siguientes acciones:
+<h3>El usuario administrador podrá realizar las siguientes acciones:</h3>
 
 ● Gestionar los Profesores de la Universidad
-
 ○ Nombre
 ○ Apellido
 ○ DNI
 ○ Activo
+
 ● Gestionar las Materias a ofrecer
 ○ Nombre
 ○ Horario
