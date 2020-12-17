@@ -8,6 +8,8 @@ namespace AlkemyChallange.Models
 {
     public class Teacher
     {
+        public Guid TeacherId { get; set; }
+
         [Required(ErrorMessage = ValidationMessages.Required)]
         [MinLength(3,ErrorMessage = ValidationMessages.MinLength)]
         [MaxLength(12, ErrorMessage = ValidationMessages.MaxLength)]
