@@ -16,6 +16,6 @@ namespace AlkemyChallange.Models
         
         public string DNI { get; set; }
         
-        public String Password { get; set; }
+        
     }
 }

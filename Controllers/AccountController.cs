@@ -25,6 +25,7 @@ namespace AlkemyChallange.Controllers
             _context = context;
         }
 
+        [HttpPost]
         public async Task<IActionResult> Login(/*LoginViewModel model*/)
         {
             return  null;

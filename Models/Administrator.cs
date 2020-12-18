@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace AlkemyChallange.Models
 {
     public class Administrator : User
-    {   
-        
+    {
+        public string Password { get; set; }
     }
 }
