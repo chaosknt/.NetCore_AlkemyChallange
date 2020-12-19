@@ -21,6 +21,7 @@ namespace AlkemyChallange.Models
 
         [Required(ErrorMessage = ValidationMessages.Required)]
         public Guid TeacherId { get; set; }
+
         public Teacher Teacher { get; set; }
 
         [Required]        

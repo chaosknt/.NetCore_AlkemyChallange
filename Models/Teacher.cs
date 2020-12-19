@@ -34,6 +34,7 @@ namespace AlkemyChallange.Models
         public Boolean isActive { get; set; } = true;
        
         public Guid SubjetId { get; set; }
+      
 
     }
 }

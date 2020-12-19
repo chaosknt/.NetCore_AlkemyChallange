@@ -22,7 +22,8 @@ namespace AlkemyChallange.Controllers
         // GET: Subjects
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Subjects.ToListAsync());
+            var context = _context.Subjects.Include(s => s.Teacher);
+            return View(await context.ToListAsync());
         }
 
         // GET: Subjects/Details/5
@@ -34,6 +35,7 @@ namespace AlkemyChallange.Controllers
             }
 
             var subject = await _context.Subjects
+                .Include(s => s.Teacher)
                 .FirstOrDefaultAsync(m => m.SubjectId == id);
             if (subject == null)
             {
@@ -46,7 +48,7 @@ namespace AlkemyChallange.Controllers
         // GET: Subjects/Create
         public IActionResult Create()
         {
-            ViewBag["TeacherId"] = new SelectList(_context.Teachers, "Id", "Nombre");
+            ViewData["TeacherId"] = new SelectList(_context.Teachers, "TeacherId", "DNI");
             return View();
         }
 
@@ -55,7 +57,7 @@ namespace AlkemyChallange.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("SubjectId,Name,Schedule,MaxStudents")] Subject subject)
+        public async Task<IActionResult> Create([Bind("SubjectId,Name,Schedule,TeacherId,MaxStudents")] Subject subject)
         {
             if (ModelState.IsValid)
             {
@@ -64,6 +66,7 @@ namespace AlkemyChallange.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["TeacherId"] = new SelectList(_context.Teachers, "TeacherId", "DNI", subject.TeacherId);
             return View(subject);
         }
 
@@ -80,6 +83,7 @@ namespace AlkemyChallange.Controllers
             {
                 return NotFound();
             }
+            ViewData["TeacherId"] = new SelectList(_context.Teachers, "TeacherId", "DNI", subject.TeacherId);
             return View(subject);
         }
 
@@ -88,7 +92,7 @@ namespace AlkemyChallange.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("SubjectId,Name,Schedule,MaxStudents")] Subject subject)
+        public async Task<IActionResult> Edit(Guid id, [Bind("SubjectId,Name,Schedule,TeacherId,MaxStudents")] Subject subject)
         {
             if (id != subject.SubjectId)
             {
@@ -115,6 +119,7 @@ namespace AlkemyChallange.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["TeacherId"] = new SelectList(_context.Teachers, "TeacherId", "DNI", subject.TeacherId);
             return View(subject);
         }
 
@@ -127,6 +132,7 @@ namespace AlkemyChallange.Controllers
             }
 
             var subject = await _context.Subjects
+                .Include(s => s.Teacher)
                 .FirstOrDefaultAsync(m => m.SubjectId == id);
             if (subject == null)
             {
