@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -25,6 +26,8 @@ namespace AlkemyChallange.Models
 
         [Required(ErrorMessage = ValidationMessages.Required)]
         [Display(Name = "Documento")]
+        [Remote(action: "DniExists", controller: "Teachers")]
+        [RegularExpression(@"[0-9]{2}\.[0-9]{3}\.[0-9]{3}", ErrorMessage = "El campo {0} debe tener este formato NN.NNN.NNN")]
         public string DNI { get; set; }
 
         [Display(Name = "Es activo")]

@@ -150,5 +150,20 @@ namespace AlkemyChallange.Controllers
         {
             return _context.Teachers.Any(e => e.TeacherId == id);
         }
+
+        public async Task<IActionResult> DniExists(string dni)
+        {
+            var teacher = await _context.Teachers.
+                                FirstOrDefaultAsync(t => t.DNI == dni);
+
+            if(teacher != null)
+            {
+                return Json(ValidationMessages.DniExists);
+            }
+            else
+            {
+                return Json(true);
+            }
+        }
     }
 }

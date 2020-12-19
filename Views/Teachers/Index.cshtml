@@ -4,10 +4,10 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Profesores</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
+<p class="pull-rigth">
+    <a asp-action="Create" title="Agregar"><i class="fas fa-user-plus"></i> Agregar</a>
 </p>
 <div class="container">
     <div class="row py-5">
@@ -25,7 +25,7 @@
                     {
                     <tr>
                         <td>
-                            <a href="#">
+                            
                                 <div class="d-flex align-items-center">
                                     <div class="avatar avatar-blue mr-3">@item.Name.Substring(0, 1) @item.LastName.Substring(0, 1)</div>
 
@@ -34,7 +34,7 @@
                                         <p class="text-muted mb-0">@Html.DisplayNameFor(modelItem => item.DNI): @Html.DisplayFor(modelItem => item.DNI)</p>
                                     </div>
                                 </div>
-                            </a>
+                            
                         </td>
                         <td>
                             @if (item.isActive)
@@ -49,11 +49,12 @@
                         </td>                        
                         <td>   
                             <div class="dropdown">
-                                <button class="btn btn-sm btn-icon" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Actions
+                                <button class="btn btn-outline-info" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="bx bx-dots-horizontal-rounded" data-toggle="tooltip" data-placement="top"
+                                       title="Actions"></i>
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton2">                                    
-                                    <a class="dropdown-item"  asp-action="Edit" asp-route-id="@item.TeacherId"><i class="bx bxs-pencil mr-2"></i> Edit Profile</a>
+                                    <a class="dropdown-item"  asp-action="Edit" asp-route-id="@item.TeacherId"><i class="far fa-check-square"></i> Cambiar estado</a>
                                     <a class="dropdown-item text-danger" asp-action="Delete" asp-route-id="@item.TeacherId"><i class="bx bxs-trash mr-2"></i> Remove</a>
                                 </div>
                             </div>
