@@ -15,9 +15,12 @@ namespace AlkemyChallange.Models
         [MaxLength(12, ErrorMessage = ValidationMessages.MaxLength)]
         public string Name { get; set; }
 
+        [Display(Name= "Dia y hora de cursada")]
+        
         public DateTime Schedule { get; set; }
 
         [Required(ErrorMessage = ValidationMessages.Required)]
+        public Guid TeacherId { get; set; }
         public Teacher Teacher { get; set; }
 
         [Required]        

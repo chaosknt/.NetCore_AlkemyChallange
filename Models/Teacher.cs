@@ -32,6 +32,8 @@ namespace AlkemyChallange.Models
 
         [Display(Name = "Es activo")]
         public Boolean isActive { get; set; } = true;
-        
+       
+        public Guid SubjetId { get; set; }
+
     }
 }

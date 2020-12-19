@@ -18,40 +18,17 @@ namespace AlkemyChallange.Controllers
         {
             _context = context;
         }
-
-        // GET: Teachers
+       
         public async Task<IActionResult> Index()
         {
             return View(await _context.Teachers.ToListAsync());
         }
-
-        // GET: Teachers/Details/5
-        public async Task<IActionResult> Details(Guid? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var teacher = await _context.Teachers
-                .FirstOrDefaultAsync(m => m.TeacherId == id);
-            if (teacher == null)
-            {
-                return NotFound();
-            }
-
-            return View(teacher);
-        }
-
-        // GET: Teachers/Create
+             
         public IActionResult Create()
         {
             return View();
         }
-
-        // POST: Teachers/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+                
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("TeacherId,Name,LastName,DNI,isActive")] Teacher teacher)
@@ -65,8 +42,7 @@ namespace AlkemyChallange.Controllers
             }
             return View(teacher);
         }
-
-        // GET: Teachers/Edit/5
+        
         public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
@@ -81,10 +57,7 @@ namespace AlkemyChallange.Controllers
             }
             return View(teacher);
         }
-
-        // POST: Teachers/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Guid id, [Bind("TeacherId,Name,LastName,DNI,isActive")] Teacher teacher)
@@ -116,8 +89,7 @@ namespace AlkemyChallange.Controllers
             }
             return View(teacher);
         }
-
-        // GET: Teachers/Delete/5
+                
         public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
@@ -134,8 +106,7 @@ namespace AlkemyChallange.Controllers
 
             return View(teacher);
         }
-
-        // POST: Teachers/Delete/5
+               
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
