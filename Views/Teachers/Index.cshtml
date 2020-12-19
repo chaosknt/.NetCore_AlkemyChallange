@@ -1,0 +1,67 @@
+﻿@model IEnumerable<AlkemyChallange.Models.Teacher>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<div class="container">
+    <div class="row py-5">
+        <div class="col-12">
+            <table id="example" class="table table-hover responsive nowrap" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.Name)</th>                        
+                        <th>@Html.DisplayNameFor(model => model.isActive)</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                    <tr>
+                        <td>
+                            <a href="#">
+                                <div class="d-flex align-items-center">
+                                    <div class="avatar avatar-blue mr-3">@item.Name.Substring(0, 1) @item.LastName.Substring(0, 1)</div>
+
+                                    <div class="">
+                                        <p class="font-weight-bold mb-0">@Html.DisplayFor(modelItem => item.Name)     @Html.DisplayFor(modelItem => item.LastName)</p>
+                                        <p class="text-muted mb-0">@Html.DisplayNameFor(modelItem => item.DNI): @Html.DisplayFor(modelItem => item.DNI)</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </td>
+                        <td>
+                            @if (item.isActive)
+                            {
+                                <div class="badge badge-success badge-success-alt">Si</div>
+                            }
+                            else
+                            {
+                                <div class="badge badge-danger badge-success-alt">No</div>
+                            }
+
+                        </td>                        
+                        <td>   
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-icon" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Actions
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton2">                                    
+                                    <a class="dropdown-item"  asp-action="Edit" asp-route-id="@item.TeacherId"><i class="bx bxs-pencil mr-2"></i> Edit Profile</a>
+                                    <a class="dropdown-item text-danger" asp-action="Delete" asp-route-id="@item.TeacherId"><i class="bx bxs-trash mr-2"></i> Remove</a>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    }
+                    </tbody>
+            </table>
+        </div>
+    </div>
+</div>

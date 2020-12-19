@@ -1,4 +1,27 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿//Data tables
+$(document).ready(function () {
+    $("table").DataTable({
+        aaSorting: [],
+        responsive: true,
 
-// Write your JavaScript code.
+        columnDefs: [
+            {
+                responsivePriority: 1,
+                targets: 0
+            },
+            {
+                responsivePriority: 2,
+                targets: -1
+            }
+        ]
+    });
+
+    $(".dataTables_filter input")
+        .attr("placeholder", "Search here...")
+        .css({
+            width: "300px",
+            display: "inline-block"
+        });
+
+    $('[data-toggle="tooltip"]').tooltip();
+});
