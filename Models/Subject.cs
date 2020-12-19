@@ -13,19 +13,28 @@ namespace AlkemyChallange.Models
         [Required(ErrorMessage = ValidationMessages.Required)]
         [MinLength(3, ErrorMessage = ValidationMessages.MinLength)]
         [MaxLength(12, ErrorMessage = ValidationMessages.MaxLength)]
+        [Display(Name = "Asignatura")]
         public string Name { get; set; }
 
-        [Display(Name= "Dia y hora de cursada")]
-        
-        public DateTime Schedule { get; set; }
+        [Display(Name= "Dia de cursada")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{DD}", ApplyFormatInEditMode = true)]
+        public DateTime DayOfTheWeek { get; set; }
 
-        [Required(ErrorMessage = ValidationMessages.Required)]
+        [Display(Name = "Hora de cursada")]
+        [DataType(DataType.Time)]
+        public DateTime Hour { get; set; }
+
+        [Required(ErrorMessage = ValidationMessages.Required)]        
         public Guid TeacherId { get; set; }
 
+        [Display(Name = "Profesor")]
         public Teacher Teacher { get; set; }
 
         [Required]        
+        [Display(Name = "Cupo")]
         public int MaxStudents { get; set; }
 
     }
 }
+

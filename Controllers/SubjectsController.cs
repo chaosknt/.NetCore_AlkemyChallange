@@ -57,7 +57,7 @@ namespace AlkemyChallange.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("SubjectId,Name,Schedule,TeacherId,MaxStudents")] Subject subject)
+        public async Task<IActionResult> Create([Bind("SubjectId,Name,DayOfTheWeek,Hour,TeacherId,MaxStudents")] Subject subject)
         {
             if (ModelState.IsValid)
             {
@@ -92,7 +92,7 @@ namespace AlkemyChallange.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("SubjectId,Name,Schedule,TeacherId,MaxStudents")] Subject subject)
+        public async Task<IActionResult> Edit(Guid id, [Bind("SubjectId,Name,DayOfTheWeek,Hour,TeacherId,MaxStudents")] Subject subject)
         {
             if (id != subject.SubjectId)
             {
