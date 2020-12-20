@@ -35,6 +35,8 @@ namespace AlkemyChallange.Data
 
         public DbSet<Teacher> Teachers { get; set; }
 
+        public DbSet<AlkemyChallange.Models.DayOfTheWeek> DayOfTheWeek { get; set; }
+
 
 
     }

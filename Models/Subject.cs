@@ -13,13 +13,11 @@ namespace AlkemyChallange.Models
         [Required(ErrorMessage = ValidationMessages.Required)]
         [MinLength(3, ErrorMessage = ValidationMessages.MinLength)]
         [MaxLength(12, ErrorMessage = ValidationMessages.MaxLength)]
-        [Display(Name = "Asignatura")]
+        [Display(Name = "Materia")]
         public string Name { get; set; }
 
-        [Display(Name= "Dia de cursada")]
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{DD}", ApplyFormatInEditMode = true)]
-        public DateTime DayOfTheWeek { get; set; }
+        [Display(Name= "Dia de cursada")]       
+        public DayOfTheWeek DayOfTheWeek { get; set; }
 
         [Display(Name = "Hora de cursada")]
         [DataType(DataType.Time)]

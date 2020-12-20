@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 
 namespace AlkemyChallange.Models
 {
-    public class Student : User
-    {        
-        public string Docket { get; set; }
+    public class DayOfTheWeek
+    {
+        public Guid DayOfTheWeekId { get; set; }
 
-        
+        public string Name { get; set; }
     }
 }
