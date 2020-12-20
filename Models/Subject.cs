@@ -18,6 +18,7 @@ namespace AlkemyChallange.Models
 
         [Display(Name= "Dia de cursada")]       
         public DayOfTheWeek DayOfTheWeek { get; set; }
+        public Guid DayOfTheWeekId { get; set; }
 
         [Display(Name = "Hora de cursada")]
         [DataType(DataType.Time)]
