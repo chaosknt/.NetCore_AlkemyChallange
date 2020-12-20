@@ -4,10 +4,10 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Materias</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create"><i class="fas fa-book"></i> Agregar</a>
 </p>
 <table class="table">
     <thead>
@@ -37,7 +37,7 @@
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.DayOfTheWeek)
+                @Html.DisplayFor(modelItem => item.DayOfTheWeek.Name)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Hour)

@@ -42,15 +42,27 @@ namespace AlkemyChallange.Migrations
                     LockoutEnabled = table.Column<bool>(type: "bit", nullable: false),
                     AccessFailedCount = table.Column<int>(type: "int", nullable: false),
                     Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Password = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DNI = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Password = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Docket = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "DayOfTheWeek",
+                columns: table => new
+                {
+                    DayOfTheWeekId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DayOfTheWeek", x => x.DayOfTheWeekId);
                 });
 
             migrationBuilder.CreateTable(
@@ -61,7 +73,8 @@ namespace AlkemyChallange.Migrations
                     Name = table.Column<string>(type: "nvarchar(12)", maxLength: 12, nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(12)", maxLength: 12, nullable: false),
                     DNI = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    isActive = table.Column<bool>(type: "bit", nullable: false)
+                    isActive = table.Column<bool>(type: "bit", nullable: false),
+                    SubjetId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -206,19 +219,26 @@ namespace AlkemyChallange.Migrations
                 {
                     SubjectId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(12)", maxLength: 12, nullable: false),
-                    Schedule = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    TeacherId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    DayOfTheWeekId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Hour = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    TeacherId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     MaxStudents = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Subjects", x => x.SubjectId);
                     table.ForeignKey(
+                        name: "FK_Subjects_DayOfTheWeek_DayOfTheWeekId",
+                        column: x => x.DayOfTheWeekId,
+                        principalTable: "DayOfTheWeek",
+                        principalColumn: "DayOfTheWeekId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
                         name: "FK_Subjects_Teachers_TeacherId",
                         column: x => x.TeacherId,
                         principalTable: "Teachers",
                         principalColumn: "TeacherId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -261,6 +281,11 @@ namespace AlkemyChallange.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Subjects_DayOfTheWeekId",
+                table: "Subjects",
+                column: "DayOfTheWeekId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Subjects_TeacherId",
                 table: "Subjects",
                 column: "TeacherId");
@@ -294,6 +319,9 @@ namespace AlkemyChallange.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "DayOfTheWeek");
 
             migrationBuilder.DropTable(
                 name: "Teachers");

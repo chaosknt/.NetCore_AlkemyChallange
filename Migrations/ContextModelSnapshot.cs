@@ -26,6 +26,7 @@ namespace AlkemyChallange.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("DayOfTheWeekId");

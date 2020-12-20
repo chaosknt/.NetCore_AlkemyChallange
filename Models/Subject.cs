@@ -16,12 +16,13 @@ namespace AlkemyChallange.Models
         [Display(Name = "Materia")]
         public string Name { get; set; }
 
-        [Display(Name= "Dia de cursada")]       
+        [Display(Name= "Dia de cursada")]     
         public DayOfTheWeek DayOfTheWeek { get; set; }
         public Guid DayOfTheWeekId { get; set; }
 
         [Display(Name = "Hora de cursada")]
         [DataType(DataType.Time)]
+        [Required]
         public DateTime Hour { get; set; }
 
         [Required(ErrorMessage = ValidationMessages.Required)]        
@@ -31,8 +32,10 @@ namespace AlkemyChallange.Models
         public Teacher Teacher { get; set; }
 
         [Required]        
-        [Display(Name = "Cupo")]
+        [Display(Name = "Cupo máximo")]
         public int MaxStudents { get; set; }
+
+        public List<Student> EnrolledStudents { get; set; }
 
     }
 }

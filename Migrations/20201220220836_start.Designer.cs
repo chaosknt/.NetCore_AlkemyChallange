@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AlkemyChallange.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20201220132211_dayoftheweek")]
-    partial class dayoftheweek
+    [Migration("20201220220836_start")]
+    partial class start
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -28,6 +28,7 @@ namespace AlkemyChallange.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("DayOfTheWeekId");
@@ -41,7 +42,7 @@ namespace AlkemyChallange.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("DayOfTheWeekId")
+                    b.Property<Guid>("DayOfTheWeekId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("Hour")
@@ -414,7 +415,9 @@ namespace AlkemyChallange.Migrations
                 {
                     b.HasOne("AlkemyChallange.Models.DayOfTheWeek", "DayOfTheWeek")
                         .WithMany()
-                        .HasForeignKey("DayOfTheWeekId");
+                        .HasForeignKey("DayOfTheWeekId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("AlkemyChallange.Models.Teacher", "Teacher")
                         .WithMany()

@@ -18,15 +18,13 @@ namespace AlkemyChallange.Controllers
         {
             _context = context;
         }
-
-        // GET: Subjects
+               
         public async Task<IActionResult> Index()
         {
-            var context = _context.Subjects.Include(s => s.Teacher);
+            var context = _context.Subjects.Include(s => s.DayOfTheWeek).Include(s => s.Teacher);
             return View(await context.ToListAsync());
         }
-
-        // GET: Subjects/Details/5
+                
         public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
@@ -35,6 +33,7 @@ namespace AlkemyChallange.Controllers
             }
 
             var subject = await _context.Subjects
+                .Include(s => s.DayOfTheWeek)
                 .Include(s => s.Teacher)
                 .FirstOrDefaultAsync(m => m.SubjectId == id);
             if (subject == null)
@@ -44,20 +43,17 @@ namespace AlkemyChallange.Controllers
 
             return View(subject);
         }
-
-        // GET: Subjects/Create
+              
         public IActionResult Create()
         {
+            ViewData["DayOfTheWeekId"] = new SelectList(_context.DayOfTheWeek, "DayOfTheWeekId", "Name");
             ViewData["TeacherId"] = new SelectList(_context.Teachers, "TeacherId", "LastName");
             return View();
         }
-
-        // POST: Subjects/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+             
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("SubjectId,Name,DayOfTheWeek,Hour,TeacherId,MaxStudents")] Subject subject)
+        public async Task<IActionResult> Create([Bind("SubjectId,Name,DayOfTheWeekId,Hour,TeacherId,MaxStudents")] Subject subject)
         {
             if (ModelState.IsValid)
             {
@@ -66,11 +62,11 @@ namespace AlkemyChallange.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["DayOfTheWeekId"] = new SelectList(_context.DayOfTheWeek, "DayOfTheWeekId", "Name", subject.DayOfTheWeekId);
             ViewData["TeacherId"] = new SelectList(_context.Teachers, "TeacherId", "DNI", subject.TeacherId);
             return View(subject);
         }
-
-        // GET: Subjects/Edit/5
+                
         public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
@@ -83,16 +79,14 @@ namespace AlkemyChallange.Controllers
             {
                 return NotFound();
             }
+            ViewData["DayOfTheWeekId"] = new SelectList(_context.DayOfTheWeek, "DayOfTheWeekId", "Name", subject.DayOfTheWeekId);
             ViewData["TeacherId"] = new SelectList(_context.Teachers, "TeacherId", "DNI", subject.TeacherId);
             return View(subject);
         }
-
-        // POST: Subjects/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("SubjectId,Name,DayOfTheWeek,Hour,TeacherId,MaxStudents")] Subject subject)
+        public async Task<IActionResult> Edit(Guid id, [Bind("SubjectId,Name,DayOfTheWeekId,Hour,TeacherId,MaxStudents")] Subject subject)
         {
             if (id != subject.SubjectId)
             {
@@ -119,11 +113,11 @@ namespace AlkemyChallange.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["DayOfTheWeekId"] = new SelectList(_context.DayOfTheWeek, "DayOfTheWeekId", "Name", subject.DayOfTheWeekId);
             ViewData["TeacherId"] = new SelectList(_context.Teachers, "TeacherId", "DNI", subject.TeacherId);
             return View(subject);
         }
-
-        // GET: Subjects/Delete/5
+               
         public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
@@ -132,6 +126,7 @@ namespace AlkemyChallange.Controllers
             }
 
             var subject = await _context.Subjects
+                .Include(s => s.DayOfTheWeek)
                 .Include(s => s.Teacher)
                 .FirstOrDefaultAsync(m => m.SubjectId == id);
             if (subject == null)
@@ -141,8 +136,7 @@ namespace AlkemyChallange.Controllers
 
             return View(subject);
         }
-
-        // POST: Subjects/Delete/5
+                
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
