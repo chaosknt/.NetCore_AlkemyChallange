@@ -55,41 +55,18 @@ namespace AlkemyChallange.Controllers
             {
                 return NotFound();
             }
-            return View(teacher);
+
+            changeState(teacher);
+            return RedirectToAction(nameof(Index));
         }
         
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("TeacherId,Name,LastName,DNI,isActive")] Teacher teacher)
+        private void changeState(Teacher t)
         {
-            if (id != teacher.TeacherId)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(teacher);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!TeacherExists(teacher.TeacherId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(teacher);
+            t.isActive = !t.isActive;
+            _context.Teachers.Update(t);
+            _context.SaveChanges();
         }
-                
+
         public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)

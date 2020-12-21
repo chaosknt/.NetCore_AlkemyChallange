@@ -39,11 +39,14 @@
                         <td>
                             @if (item.isActive)
                             {
+                                
                                 <div class="badge badge-success badge-success-alt">Si</div>
+
                             }
                             else
                             {
                                 <div class="badge badge-danger badge-success-alt">No</div>
+                                
                             }
 
                         </td>                        
@@ -54,8 +57,8 @@
                                        title="Actions"></i>
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton2">                                    
-                                    <a class="dropdown-item"  asp-action="Edit" asp-route-id="@item.TeacherId"><i class="far fa-check-square"></i> Cambiar estado</a>
-                                    <a class="dropdown-item text-danger" asp-action="Delete" asp-route-id="@item.TeacherId"><i class="bx bxs-trash mr-2"></i> Remove</a>
+                                    <a class="dropdown-item"  asp-action="Edit" asp-route-id="@item.TeacherId" title="Cambiar estado"><i class="far fa-check-square"></i> Cambiar estado</a>
+                                    <a class="dropdown-item text-danger" asp-action="Delete" asp-route-id="@item.TeacherId" title="Borrar"><i class="bx bxs-trash mr-2"></i> Borrar</a>
                                 </div>
                             </div>
                         </td>

@@ -47,7 +47,10 @@ namespace AlkemyChallange.Controllers
         public IActionResult Create()
         {
             ViewData["DayOfTheWeekId"] = new SelectList(_context.DayOfTheWeek, "DayOfTheWeekId", "Name");
-            ViewData["TeacherId"] = new SelectList(_context.Teachers, "TeacherId", "LastName");
+
+            var teachers = _context.Teachers.Where(t => t.isActive == true).ToList();
+
+            ViewData["TeacherId"] = new SelectList(teachers, "TeacherId", "LastName");
             return View();
         }
              
