@@ -15,7 +15,9 @@ namespace AlkemyChallange.Models
         public string LastName { get; set; }
         
         public string DNI { get; set; }
-        
-        
+
+        public string Docket { get; set; }
+
+
     }
 }

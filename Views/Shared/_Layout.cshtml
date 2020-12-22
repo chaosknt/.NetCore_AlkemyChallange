@@ -29,9 +29,6 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Privacy</a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Teachers" asp-action="Index">Profesores</a>
                         </li>
                         <li class="nav-item">
@@ -39,6 +36,22 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="DayOfTheWeeks" asp-action="Index">Dias</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="DayOfTheWeeks" asp-action="Entrar">Entrar</a>
+                        </li>
+                        <li class="nav-item">
+                            <div class="dropdown">
+                                <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Mi cuenta
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Clientes" asp-action="Index">Mis Materias</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Empleados" asp-action="Index">Mi cuenta</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Roles" asp-action="Index">Salir</a>
+                                </div>
+                            </div>
                         </li>
                     </ul>
                 </div>

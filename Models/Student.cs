@@ -8,7 +8,6 @@ namespace AlkemyChallange.Models
     public class Student : User
     {        
         public string Docket { get; set; }
-
         
     }
 }

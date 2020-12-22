@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AlkemyChallange.Data;
 using AlkemyChallange.Models;
+using AlkemyChallange.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -26,7 +27,7 @@ namespace AlkemyChallange.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(/*LoginViewModel model*/)
+        public async Task<IActionResult> Login(LoginViewModel model)
         {
             return  null;
         }
