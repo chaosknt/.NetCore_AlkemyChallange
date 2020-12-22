@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace AlkemyChallange.Models
 {
-    public class User : IdentityUser<Guid>
+    public class UserAcc : IdentityUser<Guid>
     {
         
         public string Name { get; set; }

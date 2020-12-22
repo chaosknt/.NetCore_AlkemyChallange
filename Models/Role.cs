@@ -7,6 +7,6 @@ using System.Threading.Tasks;
 namespace AlkemyChallange.Models
 {
     public class Role : IdentityRole<Guid>
-    {
+    {        
     }
 }

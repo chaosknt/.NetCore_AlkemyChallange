@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace AlkemyChallange.Models
 {
-    public class Student : User
+    public class Student : UserAcc
     {        
         public string Docket { get; set; }
         

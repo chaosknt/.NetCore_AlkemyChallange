@@ -21,7 +21,7 @@ namespace AlkemyChallange.Data
 
             builder.Entity<IdentityUser<Guid>>(builder =>
             {
-                builder.ToTable("User");
+                builder.ToTable("Users");
             });
         }
 
@@ -35,7 +35,9 @@ namespace AlkemyChallange.Data
 
         public DbSet<Teacher> Teachers { get; set; }
 
-        public DbSet<DayOfTheWeek> DayOfTheWeek { get; set; }               
+        public DbSet<DayOfTheWeek> DayOfTheWeek { get; set; }
+
+        public DbSet<UserAcc> UserAccs { get; set; }
 
 
     }

@@ -31,7 +31,7 @@ namespace AlkemyChallange
                 .UseSqlServer(Configuration.GetConnectionString("AlkemyChallange"))
                 );
 
-            services.AddIdentity<User, Role>().AddEntityFrameworkStores<Context>();
+            services.AddIdentity<UserAcc, Role>().AddEntityFrameworkStores<Context>();
 
             services.PostConfigure<Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationOptions>(IdentityConstants.ApplicationScheme,
                opciones =>
@@ -41,7 +41,21 @@ namespace AlkemyChallange
                }
                );
             services.AddControllersWithViews();
+
+
+            services.Configure<IdentityOptions>(options =>
+            {
+                // Segun entendi en la consigna se entra con el usuario DNI y password Legajo
+                //Entonces se baja la seguirdad de la password para usar el legajo como tal
+                options.Password.RequireDigit = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = true;
+                options.Password.RequiredLength = 6;
+                options.Password.RequiredUniqueChars = 0;
+            });
         }
+
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -67,7 +81,7 @@ namespace AlkemyChallange
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Account}/{action=Login}/{id?}");
             });
         }
     }
