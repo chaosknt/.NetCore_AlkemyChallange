@@ -21,13 +21,23 @@ namespace AlkemyChallange.Controllers
             _context = context;
         }
        
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string msg)
         {
+            if (!string.IsNullOrEmpty(msg))
+            {
+                ViewBag.Alert = msg;
+            }                       
             return View(await _context.Teachers.ToListAsync());
+        }
+
+        public async Task<IActionResult> IndexError(string msg)
+        {
+            ViewBag.AlertError = msg;
+            return View("Index", await _context.Teachers.ToListAsync());
         }
              
         public IActionResult Create()
-        {
+        {                       
             return View();
         }
                 
@@ -40,7 +50,8 @@ namespace AlkemyChallange.Controllers
                 teacher.TeacherId = Guid.NewGuid();
                 _context.Add(teacher);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+
+                return RedirectToAction(nameof(Index), new { msg = AlertMessages.Success} );                
             }
             return View(teacher);
         }
@@ -49,17 +60,17 @@ namespace AlkemyChallange.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return RedirectToAction("IndexError", new { msg = AlertMessages.Error });
             }
 
             var teacher = await _context.Teachers.FindAsync(id);
             if (teacher == null)
             {
-                return NotFound();
+                return RedirectToAction("IndexError", new { msg = AlertMessages.Error });
             }
 
-            changeState(teacher);
-            return RedirectToAction(nameof(Index));
+            changeState(teacher);     
+            return RedirectToAction(nameof(Index), new { msg = AlertMessages.TeacherState });
         }
         
         private void changeState(Teacher t)
@@ -73,14 +84,14 @@ namespace AlkemyChallange.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return RedirectToAction("IndexError", new { msg = AlertMessages.Error });
             }
 
             var teacher = await _context.Teachers
                 .FirstOrDefaultAsync(m => m.TeacherId == id);
             if (teacher == null)
             {
-                return NotFound();
+                return RedirectToAction("IndexError", new { msg = AlertMessages.Error });
             }
 
             return View(teacher);
@@ -93,7 +104,8 @@ namespace AlkemyChallange.Controllers
             var teacher = await _context.Teachers.FindAsync(id);
             _context.Teachers.Remove(teacher);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+           
+            return RedirectToAction(nameof(Index), new { msg = AlertMessages.TeacherDelete });
         }
 
         private bool TeacherExists(Guid id)

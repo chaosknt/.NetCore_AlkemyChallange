@@ -1,0 +1,63 @@
+﻿@model IEnumerable<AlkemyChallange.Models.EnrolledStudents>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h4>Mis Materias</h4>
+
+@if(Model.Count() > 0)
+{
+
+<div class="container">
+    <div class="row py-5">
+        <div class="col-12">
+            <table class="table table-hover responsive nowrap" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Subcject.Name)
+                        </th>
+                        <th>
+                            Docente
+                        </th>                                               
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+
+                                <div class="d-flex align-items-center">
+                                    <div class="avatar avatar-blue mr-3">@item.Subcject.Name.Substring(0, 2)</div>
+
+                                    <div class="">
+                                        <p class="font-weight-bold mb-0">@Html.DisplayFor(modelItem => item.Subcject.Name)</p>
+                                        <p class="text-muted mb-0">@Html.DisplayFor(modelItem => item.Subcject.DayOfTheWeek.Name)  @Html.DisplayFor(modelItem => item.Subcject.Hour)</p>
+                                    </div>
+                                </div>
+
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Subcject.Teacher.LastName)
+                            </td>                           
+                            
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+}
+else
+{
+    <center>
+        <p>
+            Todavia no estas anotado en ninguna materia. <a asp-area="" asp-controller="Home" asp-action="Index"> Materias</a>
+        </p>
+           
+    </center>
+}

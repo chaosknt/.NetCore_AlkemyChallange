@@ -5,31 +5,50 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Univercidad Alkemy</h1>
+    <h4 class="display-4">Materias disponibles</h4>
 </div>
 
+@if (ViewBag.Alert != null)
+{
+    <div class="alert alert-dismissable alert-success" style="max-width:26rem">
+        <button type="button" class="close" data-dismiss="alert">
+            &times;
+        </button>
+        <strong>Aviso!</strong> @ViewBag.Alert
+    </div>
+}
+
+@if (ViewBag.ErrorSubject != null)
+{
+    <div class="alert alert-dismissable alert-danger" style="max-width:26rem">
+        <button type="button" class="close" data-dismiss="alert">
+            &times;
+        </button>
+        <strong>Error!</strong> @ViewBag.ErrorSubject
+    </div>
+}
+
+@if (Model.Count() > 0)
+{
     <div class="row" style="margin-bottom:60px;">
 
         @if (_signinmanager.IsSignedIn(User))
         {
             foreach (var item in Model)
             {
-              
-                <div class="card card-columns" style="width: 18rem;margin:10px;">
-                    <div class="card-body">
-                        <center><h5 class="card-title">@Html.DisplayFor(modelItem => item.Name)</h5></center>
-                        <h6 class="card-subtitle mb-2 text-muted">Docente: @Html.DisplayFor(modelItem => item.Teacher.Name)</h6>
-                        <p class="card-text">
-                            Día y Horario de cursada <br />
-                            @Html.DisplayFor(modelItem => item.DayOfTheWeek.Name) @Html.DisplayFor(modelItem => item.Hour)
+                @if (item.MaxStudents > 0)
+                {
 
-                        </p>
-                        <p class="card-text">Cupos disponibles: @item.MaxStudents </p>
-                        <center><a asp-controller="Enrollment" asp-action="Enroll" asp-route-id="@item.SubjectId" class="card-link">Inscribirme</a></center>
-                        
+                    <div class="card card-columns" style="width: 18rem;margin:10px;">
+                        <div class="card-body">
+                            <center><h5 class="card-title">@Html.DisplayFor(modelItem => item.Name)</h5></center>
+
+                            <center><a asp-controller="Home" asp-action="Details" asp-route-id="@item.SubjectId" class="card-link btn btn-outline-info">Ver Detalles</a></center>
+
+                        </div>
                     </div>
-                </div>
-                    
+                }
+
             }
         }
         else
@@ -50,8 +69,21 @@
         }
 
     </div>
+}
+else
+{
+    <center>
+        <p>
+            Todavia no hay materias creadas.
+            @if (User.IsInRole("Estudiante"))
+            {
+                <a asp-area="" asp-controller="Subjects" asp-action="Index">Materias</a>
+            }
 
+        </p>
 
+    </center>
+}
 
 
 

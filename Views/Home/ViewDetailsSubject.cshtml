@@ -1,0 +1,21 @@
+﻿@model AlkemyChallange.Models.Subject
+@{
+    ViewData["Title"] = "Subject Detail";
+}
+<div class="text-center">
+    <h1 class="display-4">Univercidad Alkemy</h1>
+</div>
+
+<div class="card card-columns" style="width: 18rem;margin:10px;">
+    <div class="card-body">
+        <center><h5 class="card-title"> @Html.DisplayFor(model => model.Name)</h5></center>
+        <h6 class="card-subtitle mb-2 text-muted">Docente: @Html.DisplayFor(model => model.Teacher.Name)</h6>
+        <p class="card-text">            
+            @Html.DisplayFor(model => model.DayOfTheWeek.Name) @Html.DisplayFor(model => model.Hour)
+
+        </p>
+        <p class="card-text">Cupos disponibles:@Html.DisplayFor(model => model.MaxStudents) </p>
+        <center><a asp-controller="Enrollment" asp-action="Enroll" asp-route-id="@Model.SubjectId" class="card-link btn btn-primary">Inscribirme</a></center>
+
+    </div>
+</div>

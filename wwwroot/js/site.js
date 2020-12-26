@@ -25,3 +25,10 @@ $(document).ready(function () {
 
     $('[data-toggle="tooltip"]').tooltip();
 });
+
+//Cerrar alerta automaticamente
+window.setTimeout(function () {
+    $(".alert").fadeTo(500, 0).slideUp(500, function () {
+        $(this).remove();
+    });
+}, 4000)

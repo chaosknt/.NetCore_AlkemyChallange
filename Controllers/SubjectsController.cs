@@ -23,34 +23,50 @@ namespace AlkemyChallange.Controllers
         public async Task<IActionResult> Index()
         {
             var context = _context.Subjects.Include(s => s.DayOfTheWeek).Include(s => s.Teacher);
+            ViewBag.Alert = TempData["alert"];
+            ViewBag.TeacherActive = TempData["TeacherActive"];
+            ViewBag.TeacherAlert = TempData["TeacherAlert"];
             return View(await context.ToListAsync());
         }
-                
-        public async Task<IActionResult> Details(Guid? id)
+
+        public async Task<IActionResult> IndexError(string msg)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var subject = await _context.Subjects
-                .Include(s => s.DayOfTheWeek)
-                .Include(s => s.Teacher)
-                .FirstOrDefaultAsync(m => m.SubjectId == id);
-            if (subject == null)
-            {
-                return NotFound();
-            }
-
-            return View(subject);
+            ViewBag.TeacherAlert = msg;
+            return View("Index", await _context.Subjects.ToListAsync());
         }
-              
-        public IActionResult Create()
-        {   
-            ViewData["DayOfTheWeekId"] = new SelectList(_context.DayOfTheWeek, "DayOfTheWeekId", "Name");
-            ViewData["TeacherId"] = new SelectList(_context.Teachers, "TeacherId", "LastName");
 
+        public IActionResult Create()
+        {
+            var teachers = _context.Teachers.ToList();
+            if(teachers.Count() <= 0)
+            {
+                TempData["TeacherAlert"] = AlertMessages.NeedTeacher;
+                return RedirectToAction("Index");
+            }
+
+            teachers = _context.Teachers.Where(t => t.isActive).ToList();
+
+            if (!checkIsActive(teachers))
+            {
+                TempData["TeacherActive"] = AlertMessages.TeacherActive;
+                return RedirectToAction("Index");
+            }
+            ViewData["DayOfTheWeekId"] = new SelectList(_context.DayOfTheWeek, "DayOfTheWeekId", "Name");
+            ViewData["TeacherId"] = new SelectList(teachers, "TeacherId", "LastName");
+                       
             return View();
+        }
+
+        private Boolean checkIsActive(List<Teacher> list)
+        {
+            foreach (var item in list)
+            {
+                if (item.isActive)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
              
         [HttpPost]
@@ -60,9 +76,11 @@ namespace AlkemyChallange.Controllers
             Subject subject = new Subject();
             CreateSubject(model, subject);                        
             _context.Add(subject);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-            
+            await _context.SaveChangesAsync();            
+
+            TempData["alert"] = AlertMessages.Success;
+
+            return RedirectToAction(nameof(Index));           
             
         }
 
@@ -81,14 +99,16 @@ namespace AlkemyChallange.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return RedirectToAction("IndexError", new { msg = AlertMessages.Error });
             }
 
             var subject = await _context.Subjects.FindAsync(id);
+
             if (subject == null)
             {
-                return NotFound();
+                return RedirectToAction("IndexError", new { msg = AlertMessages.Error });
             }
+
             ViewData["DayOfTheWeekId"] = new SelectList(_context.DayOfTheWeek, "DayOfTheWeekId", "Name", subject.DayOfTheWeekId);
             ViewData["TeacherId"] = new SelectList(_context.Teachers, "TeacherId", "LastName", subject.TeacherId);
             return View(subject);
@@ -102,14 +122,17 @@ namespace AlkemyChallange.Controllers
 
             if (id != subject.SubjectId)
             {
-                return NotFound();
+                return RedirectToAction("IndexError", new { msg = AlertMessages.Error });
             }
 
             editSubject(subject, Name, DayOfTheWeekId, Hour, TeacherId, MaxStudents);
             _context.Subjects.Update(subject);
             await _context.SaveChangesAsync();
 
-            return RedirectToAction(nameof(Index));
+            TempData["alert"] = AlertMessages.Success;
+
+            return RedirectToAction(nameof(Index));           
+
         }
 
         private void editSubject(Subject subject, string Name, Guid DayOfTheWeekId, DateTime Hour, Guid TeacherId, int MaxStudents)
@@ -125,7 +148,7 @@ namespace AlkemyChallange.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return RedirectToAction("IndexError", new { msg = AlertMessages.Error });
             }
 
             var subject = await _context.Subjects
@@ -134,7 +157,7 @@ namespace AlkemyChallange.Controllers
                 .FirstOrDefaultAsync(m => m.SubjectId == id);
             if (subject == null)
             {
-                return NotFound();
+                return RedirectToAction("IndexError", new { msg = AlertMessages.Error });
             }
 
             return View(subject);
@@ -147,6 +170,9 @@ namespace AlkemyChallange.Controllers
             var subject = await _context.Subjects.FindAsync(id);
             _context.Subjects.Remove(subject);
             await _context.SaveChangesAsync();
+
+            TempData["alert"] = AlertMessages.Success;
+
             return RedirectToAction(nameof(Index));
         }
 

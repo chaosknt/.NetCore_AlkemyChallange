@@ -17,23 +17,28 @@ namespace AlkemyChallange.Controllers
         {
             _context = context;
         }
+        
         public IActionResult Enroll(Guid id)//subject id
-        {
-            if(id == null)
+        {           
+            if (id == null)
             {
-                return NotFound();
+                TempData["ErrorSubject"] = AlertMessages.SubjectError + " La materia especificada no existe.";              
+                return RedirectToAction("index", "Home");
             }
             var canEnroll = CanEnroll(id);
 
             if (!canEnroll)
             {
-                return NotFound();
+                TempData["ErrorSubject"] = AlertMessages.SubjectError + "Ya estas anotado en esa materia o no hay más cupo.";
+                return RedirectToAction("index", "Home");
             }
 
            EnrollStudent(id);
+           UpdateSubject(id);
+           TempData["Alert"] = AlertMessages.SubjectSuccess;
            return RedirectToAction("index", "Home");
         }
-        private void EnrollStudent(Guid id)
+        private void EnrollStudent(Guid id)//subject id
         {
             var studentLoggedIn = _context.UserAccs.FirstOrDefault(s => s.DNI == User.Identity.Name);
             EnrolledStudents student = new EnrolledStudents();           
@@ -46,17 +51,33 @@ namespace AlkemyChallange.Controllers
 
         }
 
+        private void UpdateSubject(Guid id)//subject id{
+        {
+            Subject subject = _context.Subjects.Find(id);
+            subject.MaxStudents--;
+
+            _context.Subjects.Update(subject);
+            _context.SaveChanges();
+        }
+
         private Boolean CanEnroll(Guid id)//subject id
         {
             var student = _context.UserAccs.FirstOrDefault(s => s.DNI == User.Identity.Name);
-            var subject = _context.EnrolledStudents.Where(s => s.SubjectId == id).ToList();         
+            var subjects = _context.EnrolledStudents.Where(s => s.SubjectId == id).ToList();         
             
-            if(subject.Count == 0)
+            if(subjects.Count == 0)
             {
                 return true;
             }
 
-            foreach (var item in subject)
+            var subject = _context.Subjects.Find(id);
+
+            if(subject.MaxStudents <= 0)
+            {
+                return false;
+            }
+
+            foreach (var item in subjects)
             {
                 if(item.StudentId == student.Id)
                 {

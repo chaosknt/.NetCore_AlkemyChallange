@@ -9,13 +9,34 @@
 <p class="pull-rigth">
     <a asp-action="Create" title="Agregar"><i class="fas fa-user-plus"></i> Agregar</a>
 </p>
+
+@if (ViewBag.Alert != null)
+{
+    <div class="alert alert-dismissable alert-success" style="max-width:26rem">
+        <button type="button" class="close" data-dismiss="alert">
+            &times;
+        </button>
+        <strong>Aviso!</strong> @ViewBag.Alert
+    </div>
+}
+
+@if (ViewBag.AlertError != null)
+{
+    <div class="alert alert-dismissable alert-danger" style="max-width:26rem">
+        <button type="button" class="close" data-dismiss="alert">
+            &times;
+        </button>
+        <strong>Error!</strong> @ViewBag.AlertError
+    </div>
+}
+
 <div class="container">
     <div class="row py-5">
         <div class="col-12">
-            <table  class="table table-hover responsive nowrap" style="width:100%">
+            <table class="table table-hover responsive nowrap" style="width:100%">
                 <thead>
                     <tr>
-                        <th>@Html.DisplayNameFor(model => model.Name)</th>                        
+                        <th>@Html.DisplayNameFor(model => model.Name)</th>
                         <th>@Html.DisplayNameFor(model => model.isActive)</th>
                         <th>Acciones</th>
                     </tr>
@@ -23,9 +44,9 @@
                 <tbody>
                     @foreach (var item in Model)
                     {
-                    <tr>
-                        <td>
-                            
+                        <tr>
+                            <td>
+
                                 <div class="d-flex align-items-center">
                                     <div class="avatar avatar-blue mr-3">@item.Name.Substring(0, 1) @item.LastName.Substring(0, 1)</div>
 
@@ -34,37 +55,37 @@
                                         <p class="text-muted mb-0">@Html.DisplayNameFor(modelItem => item.DNI): @Html.DisplayFor(modelItem => item.DNI)</p>
                                     </div>
                                 </div>
-                            
-                        </td>
-                        <td>
-                            @if (item.isActive)
-                            {
-                                
-                                <div class="badge badge-success badge-success-alt">Si</div>
 
-                            }
-                            else
-                            {
-                                <div class="badge badge-danger badge-success-alt">No</div>
-                                
-                            }
+                            </td>
+                            <td>
+                                @if (item.isActive)
+                                {
 
-                        </td>                        
-                        <td>   
-                            <div class="dropdown">
-                                <button class="btn btn-outline-info" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="bx bx-dots-horizontal-rounded" data-toggle="tooltip" data-placement="top"
-                                       title="Actions"></i>
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton2">                                    
-                                    <a class="dropdown-item"  asp-action="Edit" asp-route-id="@item.TeacherId" title="Cambiar estado"><i class="far fa-check-square"></i> Cambiar estado</a>
-                                    <a class="dropdown-item text-danger" asp-action="Delete" asp-route-id="@item.TeacherId" title="Borrar"><i class="bx bxs-trash mr-2"></i> Borrar</a>
+                                    <div class="badge badge-success badge-success-alt">Si</div>
+
+                                }
+                                else
+                                {
+                                    <div class="badge badge-danger badge-success-alt">No</div>
+
+                                }
+
+                            </td>
+                            <td>
+                                <div class="dropdown">
+                                    <button class="btn btn-outline-info" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="bx bx-dots-horizontal-rounded" data-toggle="tooltip" data-placement="top"
+                                           title="Actions"></i>
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+                                        <a class="dropdown-item" asp-action="Edit" asp-route-id="@item.TeacherId" title="Cambiar estado"><i class="far fa-check-square"></i> Cambiar estado</a>
+                                        <a class="dropdown-item text-danger" asp-action="Delete" asp-route-id="@item.TeacherId" title="Borrar"><i class="bx bxs-trash mr-2"></i> Borrar</a>
+                                    </div>
                                 </div>
-                            </div>
-                        </td>
-                    </tr>
+                            </td>
+                        </tr>
                     }
-                    </tbody>
+                </tbody>
             </table>
         </div>
     </div>
