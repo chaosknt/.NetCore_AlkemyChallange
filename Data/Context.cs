@@ -39,6 +39,6 @@ namespace AlkemyChallange.Data
 
         public DbSet<UserAcc> UserAccs { get; set; }
 
-
+        public DbSet<EnrolledStudents> EnrolledStudents { get; set; }
     }
 }

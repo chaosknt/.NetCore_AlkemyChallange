@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using AlkemyChallange.Models;
 using Microsoft.AspNetCore.Authorization;
+using AlkemyChallange.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace AlkemyChallange.Controllers{
 
@@ -14,15 +16,19 @@ namespace AlkemyChallange.Controllers{
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        private Context _context;
+        public HomeController(ILogger<HomeController> logger, Context context)
         {
             _logger = logger;
+            _context = context;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var subjects = await _context.Subjects.Include(s => s.Teacher)
+                                                  .Include(s => s.DayOfTheWeek)
+                                                  .ToListAsync();
+            return View(subjects);
         }
 
         public IActionResult Privacy()

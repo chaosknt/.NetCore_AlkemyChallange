@@ -1,27 +1,55 @@
 ﻿@{
+    @model IEnumerable<AlkemyChallange.Models.Subject>
+    @inject Microsoft.AspNetCore.Identity.SignInManager<UserAcc> _signinmanager
     ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Univercidad Alkemy</h1>    
+    <h1 class="display-4">Univercidad Alkemy</h1>
 </div>
 
+    <div class="row" style="margin-bottom:60px;">
 
-    <center>
-        <div class="col-md-12">
-            <div class="card" style="width: 18rem;">
-                <img class="card-img-top" src="img/login.svg" alt="Card image cap">
-                <div class="card-body">
-                    <h5 class="card-title">Bienvenido/a</h5>
-                    <p class="card-text">¿Cómo deseas entrar?</p>
-                    <a href="#" type="button" class="btn btn-outline-primary">Alumno</a>
-                    <a  href="#" type="button"  class="btn btn-outline-primary">Administrador</a>
+        @if (_signinmanager.IsSignedIn(User))
+        {
+            foreach (var item in Model)
+            {
+              
+                <div class="card card-columns" style="width: 18rem;margin:10px;">
+                    <div class="card-body">
+                        <center><h5 class="card-title">@Html.DisplayFor(modelItem => item.Name)</h5></center>
+                        <h6 class="card-subtitle mb-2 text-muted">Docente: @Html.DisplayFor(modelItem => item.Teacher.Name)</h6>
+                        <p class="card-text">
+                            Día y Horario de cursada <br />
+                            @Html.DisplayFor(modelItem => item.DayOfTheWeek.Name) @Html.DisplayFor(modelItem => item.Hour)
+
+                        </p>
+                        <p class="card-text">Cupos disponibles: @item.MaxStudents </p>
+                        <center><a asp-controller="Enrollment" asp-action="Enroll" asp-route-id="@item.SubjectId" class="card-link">Inscribirme</a></center>
+                        
+                    </div>
                 </div>
-            </div>
-        </div>
-    </center>
+                    
+            }
+        }
+        else
+        {
+            <center>
+                <div class="col-md-12">
+                    <div class="card" style="width: 18rem;">
+                        <img class="card-img-top" src="img/login.svg" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title">Bienvenido/a</h5>
+                            <p class="card-text">¿Cómo deseas entrar?</p>
+                            <a href="#" type="button" class="btn btn-outline-primary">Alumno</a>
+                            <a href="#" type="button" class="btn btn-outline-primary">Administrador</a>
+                        </div>
+                    </div>
+                </div>
+            </center>
+        }
 
-    
+    </div>
 
 
 
@@ -29,6 +57,3 @@
 
 
 
-    
-
-   

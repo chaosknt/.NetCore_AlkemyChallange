@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -41,8 +42,8 @@ namespace AlkemyChallange.Models
         [Display(Name = "Cupo máximo")]
         public int MaxStudents { get; set; }
 
-        public List<Student> EnrolledStudents { get; set; }
-
+        public List<EnrolledStudents> EnrolledStudents { get; set; }
+               
     }
 }
 

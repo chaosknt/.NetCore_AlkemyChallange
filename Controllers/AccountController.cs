@@ -75,7 +75,7 @@ namespace AlkemyChallange.Controllers
             ViewData["RoleId"] = new SelectList(_context.Role, "Id", "Name");
 
             string returnUrl = TempData["returnUrl"] as string;
-            string msgError = "Inicio de sesión incorrecto.";
+           
 
             var user = _context.UserAccs.FirstOrDefault(u => u.UserName == model.DNI);
             var role = _context.UserRoles.FirstOrDefault(r => r.UserId == user.Id);
@@ -95,10 +95,10 @@ namespace AlkemyChallange.Controllers
                     return RedirectToAction("Index", "Home");
 
                 }
-                ModelState.AddModelError(string.Empty, msgError);
+                ModelState.AddModelError(string.Empty, ErrorMessages.LogInDeny);
                 return View(model);
             }
-            ModelState.AddModelError(string.Empty, msgError);            
+            ModelState.AddModelError(string.Empty, ErrorMessages.LogInDeny);            
             return View(model);
         }
 

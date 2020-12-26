@@ -8,6 +8,7 @@ namespace AlkemyChallange.Models
     public class Student : UserAcc
     {        
         public string Docket { get; set; }
-        
+
+        public List<EnrolledStudents> EnrolledSubjects { get; set; }
     }
 }

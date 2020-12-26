@@ -4,14 +4,16 @@ using AlkemyChallange.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AlkemyChallange.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20201226140856_students")]
+    partial class students
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -32,27 +34,6 @@ namespace AlkemyChallange.Migrations
                     b.HasKey("DayOfTheWeekId");
 
                     b.ToTable("DayOfTheWeek");
-                });
-
-            modelBuilder.Entity("AlkemyChallange.Models.EnrolledStudents", b =>
-                {
-                    b.Property<Guid>("EnrolledStudentsId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("StudentId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("SubjectId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("EnrolledStudentsId");
-
-                    b.HasIndex("StudentId");
-
-                    b.HasIndex("SubjectId");
-
-                    b.ToTable("EnrolledStudents");
                 });
 
             modelBuilder.Entity("AlkemyChallange.Models.Subject", b =>
@@ -325,6 +306,21 @@ namespace AlkemyChallange.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("StudentSubject", b =>
+                {
+                    b.Property<Guid>("EnrolledStudentsId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("EnrolledSubjectsSubjectId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("EnrolledStudentsId", "EnrolledSubjectsSubjectId");
+
+                    b.HasIndex("EnrolledSubjectsSubjectId");
+
+                    b.ToTable("StudentSubject");
+                });
+
             modelBuilder.Entity("AlkemyChallange.Models.Role", b =>
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>");
@@ -366,25 +362,6 @@ namespace AlkemyChallange.Migrations
                     b.HasBaseType("AlkemyChallange.Models.UserAcc");
 
                     b.HasDiscriminator().HasValue("Student");
-                });
-
-            modelBuilder.Entity("AlkemyChallange.Models.EnrolledStudents", b =>
-                {
-                    b.HasOne("AlkemyChallange.Models.Student", "Student")
-                        .WithMany("EnrolledSubjects")
-                        .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("AlkemyChallange.Models.Subject", "Subcject")
-                        .WithMany("EnrolledStudents")
-                        .HasForeignKey("SubjectId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Student");
-
-                    b.Navigation("Subcject");
                 });
 
             modelBuilder.Entity("AlkemyChallange.Models.Subject", b =>
@@ -457,14 +434,19 @@ namespace AlkemyChallange.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("AlkemyChallange.Models.Subject", b =>
+            modelBuilder.Entity("StudentSubject", b =>
                 {
-                    b.Navigation("EnrolledStudents");
-                });
+                    b.HasOne("AlkemyChallange.Models.Student", null)
+                        .WithMany()
+                        .HasForeignKey("EnrolledStudentsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-            modelBuilder.Entity("AlkemyChallange.Models.Student", b =>
-                {
-                    b.Navigation("EnrolledSubjects");
+                    b.HasOne("AlkemyChallange.Models.Subject", null)
+                        .WithMany()
+                        .HasForeignKey("EnrolledSubjectsSubjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
