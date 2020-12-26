@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AlkemyChallange.Data;
 using AlkemyChallange.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AlkemyChallange.Controllers
 {
+    [Authorize]
     public class TeachersController : Controller
     {
         private readonly Context _context;

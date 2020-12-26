@@ -18,6 +18,5 @@ namespace AlkemyChallange.Models
 
         public string Docket { get; set; }
 
-
     }
 }

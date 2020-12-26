@@ -259,3 +259,12 @@ table.dataTable {
     background-color: #fcd3e1;
     color: #f66d9b;
 }
+
+/* Center*/
+
+.center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 80vh;
+}

@@ -3,34 +3,37 @@
 @{
     ViewData["Title"] = "Login";
 }
-
-<h4>Iniciar Sesión</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Login">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="DNI" class="control-label"></label>
-                <input asp-for="DNI" class="form-control" />
-                <span asp-validation-for="DNI" class="text-danger"></span>
+<center class="center">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">Iniciar Sesión</h5>
+                    <form asp-action="Login">
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+                        <div class="form-group">
+                            <label asp-for="DNI" class="control-label"></label>
+                            <input asp-for="DNI" class="form-control" />
+                            <span asp-validation-for="DNI" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Docket" class="control-label"></label>
+                            <input asp-for="Docket" class="form-control" />
+                            <span asp-validation-for="Docket" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="RoleId" class="control-label"></label>
+                            <select asp-for="RoleId" class="form-control" asp-items="ViewBag.RoleId"></select>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Entrar" class="btn btn-primary" />
+                        </div>
+                    </form>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Docket" class="control-label"></label>
-                <input asp-for="Docket" class="form-control" />
-                <span asp-validation-for="Docket" class="text-danger"></span>
-            </div>           
-            <div class="form-group">
-                <label asp-for="RoleId" class="control-label"></label>
-                <select asp-for="RoleId" class="form-control" asp-items="ViewBag.RoleId"></select>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Entrar" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
-</div>
-
+</center>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
