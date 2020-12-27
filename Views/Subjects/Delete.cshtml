@@ -4,50 +4,31 @@
     ViewData["Title"] = "Delete";
 }
 
+<center><h5>¿Está seguro que desea borrar esta Materia?</h5></center>
+<div class="container">
+    <div class="row py-5">
+        <div class="col-12">
+            <center>
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">  @Html.DisplayFor(model => model.Name)</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">@Html.DisplayFor(model => model.DayOfTheWeek.Name)  @Html.DisplayFor(model => model.Hour) </h6>
+                        <p class="card-text">
+                            @Html.DisplayNameFor(model => model.Teacher): @Html.DisplayFor(model => model.Teacher.LastName) <br />
+                            @Html.DisplayNameFor(model => model.MaxStudents):  @Html.DisplayFor(model => model.MaxStudents)
+                        </p>
+                        <form asp-action="Delete">
+                            <input type="hidden" asp-for="TeacherId" />
+                            <p>
+                                <a asp-action="Index" class="btn btn-outline-secondary" title="volver"><i class="fas fa-arrow-circle-left"></i> Volver</a>
+                                <input type="submit" value="Borrar" class="btn btn-danger" />
 
+                            </p>
+                        </form>
+                    </div>
+                </div>
+            </center>
 
-<h3>¿Está seguro que desea borrar esta Materia?</h3>
-<div>    
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DayOfTheWeek)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DayOfTheWeek.Name)
-        </dd class>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Hour)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Hour)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Teacher)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Teacher.LastName)
-        </dd class>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.MaxStudents)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.MaxStudents)
-        </dd>
-    </dl>
-    
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="SubjectId" />     
-        <p>
-            <input type="submit" value="Borrar" class="btn btn-danger" /> |
-            <a asp-action="Index" title="volver"><i class="fas fa-arrow-circle-left"></i> Volver</a>
-        </p>
-      
-    </form>
+        </div>
+    </div>
 </div>

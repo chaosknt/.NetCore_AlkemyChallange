@@ -1,4 +1,6 @@
 ﻿using AlkemyChallange.Data;
+using AlkemyChallange.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -8,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace AlkemyChallange.Controllers
 {
+    [Authorize(Roles = "Estudiante")]
     public class StudentController : Controller
     {
         private readonly Context _context;
@@ -26,9 +29,17 @@ namespace AlkemyChallange.Controllers
                                                         .Include(e => e.Subcject.Teacher)
                                                         .ToList();
                 return View(enrolled);
-            }            
-           
-            return NotFound();
+            }
+
+            TempData["ErrorSubject"] = AlertMessages.RolError + " Estudiante.";
+            return RedirectToAction("index", "Home");
         }
+
+        public IActionResult Profile()
+        {
+            var studentLoggedIn = _context.UserAccs.FirstOrDefault(s => s.DNI == User.Identity.Name);
+            return View(studentLoggedIn);
+        }
+
     }
 }

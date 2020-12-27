@@ -13,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 namespace AlkemyChallange.Controllers{
 
    
+    
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -29,7 +30,7 @@ namespace AlkemyChallange.Controllers{
             ViewBag.Alert = TempData["alert"];
             ViewBag.ErrorSubject = TempData["ErrorSubject"];
             var subjects = await _context.Subjects.Include(s => s.Teacher)
-                                                  .Include(s => s.DayOfTheWeek)
+                                                  .Include(s => s.DayOfTheWeek).OrderBy(s => s.Name)
                                                   .ToListAsync();
             return View(subjects);
         }

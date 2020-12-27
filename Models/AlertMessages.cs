@@ -8,6 +8,7 @@ namespace AlkemyChallange.Models
     public class AlertMessages
     {
         public const string
+            RolError = "Error, para entrar en esta pagina debe loguear con el Rol de ",
             Success = "Se ha completado la tarea exitosamente.",
             Error = "La acción no se ha completado.",
             NeedTeacher = "Debe tener al menos un Profesor creado antes de crear una materia.",            

@@ -1,0 +1,27 @@
+﻿@model AlkemyChallange.Models.UserAcc
+
+@{
+    ViewData["Title"] = "Profile";
+}
+
+<center><h5>Perfil de  @Html.DisplayFor(model => model.Name)   @Html.DisplayFor(model => model.LastName)</h5></center>
+<div class="container">
+    <div class="row py-5">
+        <div class="col-12">
+            <center>
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            @Html.DisplayNameFor(model => model.DNI)   @Html.DisplayFor(model => model.DNI)                           
+                        </h5>
+                        <h6 class="card-subtitle mb-2 text-muted"> @Html.DisplayNameFor(model => model.Docket):  @Html.DisplayFor(model => model.Docket) </h6>
+                        <p class="card-text">                           
+                            Usuario: @Html.DisplayFor(model => model.UserName)
+                        </p>                    
+                                                   
+                    </div>
+                </div>
+            </center>
+        </div>
+    </div>
+</div>

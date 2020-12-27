@@ -4,10 +4,6 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h4 class="display-4">Materias disponibles</h4>
-</div>
-
 @if (ViewBag.Alert != null)
 {
     <div class="alert alert-dismissable alert-success" style="max-width:26rem">
@@ -28,64 +24,71 @@
     </div>
 }
 
-@if (Model.Count() > 0)
-{
-    <div class="row" style="margin-bottom:60px;">
-
-        @if (_signinmanager.IsSignedIn(User))
+<div class="container">
+    @if (!_signinmanager.IsSignedIn(User))
+    {
+        <center class="center">
+            <div class="card" style="width: 18rem;">
+                <img class="card-img-top" src="img/login.svg" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">Bienvenido/a</h5>
+                    <p class="card-text">Inicie Sesión</p>
+                    <center><a class="btn btn-outline-primary" asp-area="" asp-controller="Account" asp-action="Login">Entrar</a></center>
+                </div>
+            </div>
+        </center>
+    }
+    else
+    {
+        @if (Model.Count() > 0)
         {
-            foreach (var item in Model)
-            {
-                @if (item.MaxStudents > 0)
+            <div class="text-center">
+                <h4 class="display-4">Materias disponibles</h4>
+            </div>
+            <div class="row align-items-center" style="margin-bottom:60px;">
+
+                @if (_signinmanager.IsSignedIn(User))
+                {
+                    foreach (var item in Model)
+                    {
+                        @if (item.MaxStudents > 0)
+                        {
+
+                            <div class="card card-columns" style="width: 18rem;margin:10px;">
+                                <div class="card-body">
+                                    <center><h5 class="card-title">@Html.DisplayFor(modelItem => item.Name)</h5></center>
+
+                                    <center><a asp-controller="Home" asp-action="Details" asp-route-id="@item.SubjectId" class="card-link btn btn-outline-info">Ver Detalles</a></center>
+
+                                </div>
+                            </div>
+
+                        }
+
+                    }
+                }
+                else
                 {
 
-                    <div class="card card-columns" style="width: 18rem;margin:10px;">
-                        <div class="card-body">
-                            <center><h5 class="card-title">@Html.DisplayFor(modelItem => item.Name)</h5></center>
 
-                            <center><a asp-controller="Home" asp-action="Details" asp-route-id="@item.SubjectId" class="card-link btn btn-outline-info">Ver Detalles</a></center>
+                    <center>
+                        <p>
+                            Todavia no hay materias creadas.
+                            @if (User.IsInRole("Estudiante"))
+                            {
+                                <a asp-area="" asp-controller="Subjects" asp-action="Index">Materias</a>
+                            }
 
-                        </div>
-                    </div>
+                        </p>
+
+                    </center>
+
+
                 }
 
-            }
-        }
-        else
-        {
-            <center>
-                <div class="col-md-12">
-                    <div class="card" style="width: 18rem;">
-                        <img class="card-img-top" src="img/login.svg" alt="Card image cap">
-                        <div class="card-body">
-                            <h5 class="card-title">Bienvenido/a</h5>
-                            <p class="card-text">¿Cómo deseas entrar?</p>
-                            <a href="#" type="button" class="btn btn-outline-primary">Alumno</a>
-                            <a href="#" type="button" class="btn btn-outline-primary">Administrador</a>
-                        </div>
-                    </div>
-                </div>
-            </center>
+            </div>
         }
 
-    </div>
-}
-else
-{
-    <center>
-        <p>
-            Todavia no hay materias creadas.
-            @if (User.IsInRole("Estudiante"))
-            {
-                <a asp-area="" asp-controller="Subjects" asp-action="Index">Materias</a>
-            }
+    }
 
-        </p>
-
-    </center>
-}
-
-
-
-
-
+</div>

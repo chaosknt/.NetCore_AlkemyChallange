@@ -1,6 +1,7 @@
 ﻿using AlkemyChallange.Data;
 using AlkemyChallange.Migrations;
 using AlkemyChallange.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,7 @@ using EnrolledStudents = AlkemyChallange.Models.EnrolledStudents;
 
 namespace AlkemyChallange.Controllers
 {
+    [Authorize(Roles = "Estudiante")]
     public class EnrollmentController : Controller
     {
         private Context _context;

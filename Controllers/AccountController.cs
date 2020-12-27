@@ -5,13 +5,14 @@ using System.Threading.Tasks;
 using AlkemyChallange.Data;
 using AlkemyChallange.Models;
 using AlkemyChallange.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace AlkemyChallange.Controllers
-{
+{   
     public class AccountController : Controller
     {
         private readonly UserManager<UserAcc> _userManager;
@@ -29,11 +30,15 @@ namespace AlkemyChallange.Controllers
             _context = context;
         }
 
+        // Account/CreateAccount  --> Usado para crear los usuarios para hacer pruebas
+
+        [Authorize(Roles = "Administrador")]
         public IActionResult CreateAccount()
         {
             return View();
         }
 
+        [Authorize(Roles = "Administrador")]
         [HttpPost]
         public async Task<IActionResult> CreateAccount(CreateAccountViewModel model)
         {
@@ -44,7 +49,7 @@ namespace AlkemyChallange.Controllers
                 usuario.Name = model.Name;
                 usuario.LastName = model.LastName;
                 usuario.Docket = model.Name.Substring(0, 1) + model.LastName.Substring(0, 1) + model.DNI;
-                usuario.UserName = model.DNI;                
+                usuario.UserName = model.DNI;
 
                 var result = await _userManager.CreateAsync(usuario, usuario.Docket);
 
@@ -54,7 +59,7 @@ namespace AlkemyChallange.Controllers
                     return RedirectToAction("Index", "Home");
                 }
 
-                foreach(var error in result.Errors)
+                foreach (var error in result.Errors)
                 {
                     ModelState.AddModelError(string.Empty, error.Description);
                 }
@@ -111,12 +116,9 @@ namespace AlkemyChallange.Controllers
 
         public IActionResult Denied()
         {
-            return null;
+            TempData["ErrorSubject"] = AlertMessages.Error + " No tiene permisos suficientes";
+            return RedirectToAction("Index", "Home");
         }
-
-        public IActionResult Index()
-        {
-            return View();
-        }
+        
     }
 }

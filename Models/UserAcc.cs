@@ -16,6 +16,7 @@ namespace AlkemyChallange.Models
         
         public string DNI { get; set; }
 
+        [Display(Name = "Legajo")]
         public string Docket { get; set; }
 
     }
