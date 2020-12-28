@@ -33,39 +33,39 @@ namespace AlkemyChallange.Controllers
        // Account/CreateAccount  --> Usado para crear los usuarios para hacer pruebas
 
        //[Authorize(Roles = RolesName.Administrador)]
-        public IActionResult CreateAccount()
-        {
-            return View();
-        }
+       // public IActionResult CreateAccount()
+       // {
+       //     return View();
+       // }
 
-        //[Authorize(Roles = RolesName.Administrador)]
-        [HttpPost]
-        public async Task<IActionResult> CreateAccount(CreateAccountViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                UserAcc usuario = new UserAcc();
-                usuario.DNI = model.DNI;
-                usuario.Name = model.Name;
-                usuario.LastName = model.LastName;
-                usuario.Docket = model.Name.Substring(0, 1) + model.LastName.Substring(0, 1) + model.DNI;
-                usuario.UserName = model.DNI;
+       // [Authorize(Roles = RolesName.Administrador)]
+       // [HttpPost]
+       // public async Task<IActionResult> CreateAccount(CreateAccountViewModel model)
+       // {
+       //     if (ModelState.IsValid)
+       //     {
+       //         UserAcc usuario = new UserAcc();
+       //         usuario.DNI = model.DNI;
+       //         usuario.Name = model.Name;
+       //         usuario.LastName = model.LastName;
+       //         usuario.Docket = model.Name.Substring(0, 1) + model.LastName.Substring(0, 1) + model.DNI;
+       //         usuario.UserName = model.DNI;
 
-                var result = await _userManager.CreateAsync(usuario, usuario.Docket);
+       //         var result = await _userManager.CreateAsync(usuario, usuario.Docket);
 
-                if (result.Succeeded)
-                {
-                    await _userManager.AddToRoleAsync(usuario, RolesName.Administrador);
-                    return RedirectToAction("Index", "Home");
-                }
+       //         if (result.Succeeded)
+       //         {
+       //             await _userManager.AddToRoleAsync(usuario, RolesName.Administrador);
+       //             return RedirectToAction("Index", "Home");
+       //         }
 
-                foreach (var error in result.Errors)
-                {
-                    ModelState.AddModelError(string.Empty, error.Description);
-                }
-            }
-            return View(model);
-        }
+       //         foreach (var error in result.Errors)
+       //         {
+       //             ModelState.AddModelError(string.Empty, error.Description);
+       //         }
+       //     }
+       //     return View(model);
+       // }
 
         public IActionResult Login(string ReturnUrl)
         {
