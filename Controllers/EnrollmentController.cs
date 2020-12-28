@@ -3,6 +3,7 @@ using AlkemyChallange.Migrations;
 using AlkemyChallange.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,9 +28,9 @@ namespace AlkemyChallange.Controllers
                 TempData["ErrorSubject"] = AlertMessages.SubjectError + " La materia especificada no existe.";
                 return RedirectToAction("index", "Home");
             }
-            var canEnroll = CanEnroll(id);
+            //var canEnroll = CanEnroll(id);
 
-            if (!canEnroll)
+            if (!CanEnroll(id))
             {
                 TempData["ErrorSubject"] = AlertMessages.SubjectError + TempData["cantEnroll"];
                 return RedirectToAction("index", "Home");
@@ -65,7 +66,7 @@ namespace AlkemyChallange.Controllers
         private Boolean CanEnroll(Guid id)//subject id
         {
             var student = _context.UserAccs.FirstOrDefault(s => s.DNI == User.Identity.Name);
-            var subjects = _context.EnrolledStudents.Where(s => s.SubjectId == id).ToList();
+            var subjects = _context.EnrolledStudents.Where(s => s.StudentId == student.Id).Include(s => s.Subcject.DayOfTheWeek).ToList();
 
             if (subjects.Count == 0)
             {
@@ -87,17 +88,19 @@ namespace AlkemyChallange.Controllers
         {
             foreach (var item in subjects)
             {
-                if (item.Subcject.DayOfTheWeek == subject.DayOfTheWeek && checkTime(item.Subcject.Hour, subject.Hour))
-                {
-                    TempData["cantEnroll"] = "Horarios incompatibles";
-                    return false;
-                }
-
-                if (item.StudentId == student.Id)
+                if (item.SubjectId == subject.SubjectId)
                 {
                     TempData["cantEnroll"] = " Ya estas anotado";
                     return false;
                 }
+
+                if (item.Subcject.DayOfTheWeek == subject.DayOfTheWeek && checkTime(item.Subcject.Hour, subject.Hour))
+                {
+                    TempData["cantEnroll"] = " Horarios incompatibles";
+                    return false;
+                }
+
+                
 
                
             }
@@ -107,18 +110,21 @@ namespace AlkemyChallange.Controllers
         //devuelve falso si las horas no estan solapadas
         private Boolean checkTime(DateTime alredyEnrolled, DateTime newSubjectTime)
         {
+            DateTime newSubjectPlusTwo = newSubjectTime.AddHours(2);
+            DateTime AlredyPlusTwo = alredyEnrolled.AddHours(2);
             Boolean aux = false;
+
             if (alredyEnrolled == newSubjectTime)
             {
                 aux = true;
             }
 
-            if (alredyEnrolled >= newSubjectTime && alredyEnrolled <= newSubjectTime.AddHours(2))
+            if (alredyEnrolled >= newSubjectTime && alredyEnrolled <= newSubjectPlusTwo)
             {
                 aux = true;
             }
 
-            if (alredyEnrolled.AddHours(2) >= newSubjectTime && alredyEnrolled.AddHours(2) <= newSubjectTime.AddHours(2))
+            if (AlredyPlusTwo >= newSubjectTime && AlredyPlusTwo <= newSubjectPlusTwo)
             {
                 aux = true;
             }
