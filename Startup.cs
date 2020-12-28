@@ -60,6 +60,8 @@ namespace AlkemyChallange
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, Context context)
         {
+            Seed.Start(app);
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -72,18 +74,18 @@ namespace AlkemyChallange
             }
 
             context.Database.EnsureCreated();
+
             context.Database.Migrate(); 
 
             app.UseHttpsRedirection();
+
             app.UseStaticFiles();
 
             app.UseRouting();
 
             app.UseAuthentication();
 
-            app.UseAuthorization();
-
-           
+            app.UseAuthorization();           
 
             app.UseEndpoints(endpoints =>
             {

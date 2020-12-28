@@ -31,9 +31,8 @@ namespace AlkemyChallange.Models
         public string DNI { get; set; }
 
         [Display(Name = "Es activo")]
-        public Boolean isActive { get; set; } = true;
-       
-        public Guid SubjetId { get; set; }
+        public Boolean isActive { get; set; } = true;      
+        
       
 
     }

@@ -30,15 +30,18 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Inscripción</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Teachers" asp-action="Index">Profesores</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Subjects" asp-action="Index">Materias</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="DayOfTheWeeks" asp-action="Index">Dias</a>
-                        </li>
+                        @if (User.IsInRole(RolesName.Administrador))
+                        {                                                    
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Teachers" asp-action="Index">Profesores</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Subjects" asp-action="Index">Materias</a>
+                            </li>
+                            @*<li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="DayOfTheWeeks" asp-action="Index">Dias</a>
+                            </li>*@
+                        }
 
                         @if (_signinmanager.IsSignedIn(User))
                         {
@@ -47,17 +50,22 @@
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     @User.Identity.Name
                                 </a>
+                                                                    
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Student" asp-action="ViewSubjects">Mis Materias</a>
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Student" asp-action="Profile">Perfil</a>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Logout">Salir</a>
-                                </div>
+                                    @if (User.IsInRole(RolesName.Estudiante))
+                                    {
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Student" asp-action="ViewSubjects">Mis Materias</a>
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Student" asp-action="Profile">Perfil</a>
+                                        <div class="dropdown-divider"></div>
+                                    }
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Logout">Salir</a>
+                                    </div>
+                                  
                             </li>
                         }
                         else
                         {
-                    
+
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Entrar</a>
                             </li>

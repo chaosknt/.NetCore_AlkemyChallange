@@ -30,15 +30,15 @@ namespace AlkemyChallange.Controllers
             _context = context;
         }
 
-        // Account/CreateAccount  --> Usado para crear los usuarios para hacer pruebas
+       // Account/CreateAccount  --> Usado para crear los usuarios para hacer pruebas
 
-        [Authorize(Roles = RolesName.Administrador)]
+       //[Authorize(Roles = RolesName.Administrador)]
         public IActionResult CreateAccount()
         {
             return View();
         }
 
-        [Authorize(Roles = RolesName.Administrador)]
+        //[Authorize(Roles = RolesName.Administrador)]
         [HttpPost]
         public async Task<IActionResult> CreateAccount(CreateAccountViewModel model)
         {
@@ -55,7 +55,7 @@ namespace AlkemyChallange.Controllers
 
                 if (result.Succeeded)
                 {
-                    await _userManager.AddToRoleAsync(usuario, "Administrador");
+                    await _userManager.AddToRoleAsync(usuario, RolesName.Administrador);
                     return RedirectToAction("Index", "Home");
                 }
 
