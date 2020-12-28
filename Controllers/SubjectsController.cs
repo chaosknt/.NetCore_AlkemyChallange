@@ -12,7 +12,7 @@ using AlkemyChallange.ViewModels;
 
 namespace AlkemyChallange.Controllers
 {
-    [Authorize(Roles = "Administrador")]
+    [Authorize(Roles = RolesName.Administrador)]
     public class SubjectsController : Controller
     {
         private readonly Context _context;

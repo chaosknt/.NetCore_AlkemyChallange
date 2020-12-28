@@ -66,27 +66,13 @@
                         }
 
                     }
-                }
-                else
-                {
-
-
-                    <center>
-                        <p>
-                            Todavia no hay materias creadas.
-                            @if (User.IsInRole("Estudiante"))
-                            {
-                                <a asp-area="" asp-controller="Subjects" asp-action="Index">Materias</a>
-                            }
-
-                        </p>
-
-                    </center>
-
-
-                }
+                }               
 
             </div>
+        }
+        else
+        {
+            <center><p>Todavia no hay materias creadas.</p></center>
         }
 
     }

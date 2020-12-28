@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace AlkemyChallange.Controllers
 {
-    [Authorize(Roles = "Administrador")]
+    [Authorize(Roles = RolesName.Administrador)]
     public class TeachersController : Controller
     {
         private readonly Context _context;

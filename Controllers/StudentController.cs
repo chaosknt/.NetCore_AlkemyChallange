@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace AlkemyChallange.Controllers
 {
-    [Authorize(Roles = "Estudiante")]
+    [Authorize(Roles = RolesName.Estudiante)]
     public class StudentController : Controller
     {
         private readonly Context _context;
@@ -20,7 +20,7 @@ namespace AlkemyChallange.Controllers
         }
         public IActionResult ViewSubjects()
         {
-            if (User.IsInRole("Estudiante"))
+            if (User.IsInRole(RolesName.Estudiante))
             {
                 var student = _context.UserAccs.FirstOrDefault(s => s.DNI == User.Identity.Name);
                 var enrolled = _context.EnrolledStudents.Where(e => e.StudentId == student.Id)

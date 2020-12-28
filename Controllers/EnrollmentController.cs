@@ -11,7 +11,7 @@ using EnrolledStudents = AlkemyChallange.Models.EnrolledStudents;
 
 namespace AlkemyChallange.Controllers
 {
-    [Authorize(Roles = "Estudiante")]
+    [Authorize(Roles = RolesName.Estudiante)]
     public class EnrollmentController : Controller
     {
         private Context _context;
@@ -19,31 +19,31 @@ namespace AlkemyChallange.Controllers
         {
             _context = context;
         }
-        
+
         public IActionResult Enroll(Guid id)//subject id
-        {           
+        {
             if (id == null)
             {
-                TempData["ErrorSubject"] = AlertMessages.SubjectError + " La materia especificada no existe.";              
+                TempData["ErrorSubject"] = AlertMessages.SubjectError + " La materia especificada no existe.";
                 return RedirectToAction("index", "Home");
             }
             var canEnroll = CanEnroll(id);
 
             if (!canEnroll)
             {
-                TempData["ErrorSubject"] = AlertMessages.SubjectError + "Ya estas anotado en esa materia o no hay más cupo.";
+                TempData["ErrorSubject"] = AlertMessages.SubjectError + TempData["cantEnroll"];
                 return RedirectToAction("index", "Home");
             }
 
-           EnrollStudent(id);
-           UpdateSubject(id);
-           TempData["Alert"] = AlertMessages.SubjectSuccess;
-           return RedirectToAction("index", "Home");
+            EnrollStudent(id);
+            UpdateSubject(id);
+            TempData["Alert"] = AlertMessages.SubjectSuccess;
+            return RedirectToAction("index", "Home");
         }
         private void EnrollStudent(Guid id)//subject id
         {
             var studentLoggedIn = _context.UserAccs.FirstOrDefault(s => s.DNI == User.Identity.Name);
-            EnrolledStudents student = new EnrolledStudents();           
+            EnrolledStudents student = new EnrolledStudents();
             student.StudentId = studentLoggedIn.Id;
             student.SubjectId = id;
             student.EnrolledStudentsId = new Guid();
@@ -65,29 +65,65 @@ namespace AlkemyChallange.Controllers
         private Boolean CanEnroll(Guid id)//subject id
         {
             var student = _context.UserAccs.FirstOrDefault(s => s.DNI == User.Identity.Name);
-            var subjects = _context.EnrolledStudents.Where(s => s.SubjectId == id).ToList();         
-            
-            if(subjects.Count == 0)
+            var subjects = _context.EnrolledStudents.Where(s => s.SubjectId == id).ToList();
+
+            if (subjects.Count == 0)
             {
                 return true;
             }
 
             var subject = _context.Subjects.Find(id);
 
-            if(subject.MaxStudents <= 0)
+            if (subject.MaxStudents <= 0)
             {
+                TempData["cantEnroll"] = "No hay más cupo";
                 return false;
             }
+                      
+            return checkSubjects(subject, subjects, student);
+        }
 
+        private Boolean checkSubjects(Subject subject, List<EnrolledStudents> subjects, UserAcc student)
+        {
             foreach (var item in subjects)
             {
-                if(item.StudentId == student.Id)
+                if (item.Subcject.DayOfTheWeek == subject.DayOfTheWeek && checkTime(item.Subcject.Hour, subject.Hour))
                 {
+                    TempData["cantEnroll"] = "Horarios incompatibles";
                     return false;
                 }
+
+                if (item.StudentId == student.Id)
+                {
+                    TempData["cantEnroll"] = " Ya estas anotado";
+                    return false;
+                }
+
+               
+            }
+            return true;
+        }
+
+        //devuelve falso si las horas no estan solapadas
+        private Boolean checkTime(DateTime alredyEnrolled, DateTime newSubjectTime)
+        {
+            Boolean aux = false;
+            if (alredyEnrolled == newSubjectTime)
+            {
+                aux = true;
             }
 
-            return true;
+            if (alredyEnrolled >= newSubjectTime && alredyEnrolled <= newSubjectTime.AddHours(2))
+            {
+                aux = true;
+            }
+
+            if (alredyEnrolled.AddHours(2) >= newSubjectTime && alredyEnrolled.AddHours(2) <= newSubjectTime.AddHours(2))
+            {
+                aux = true;
+            }
+
+            return aux;
         }
         
     }

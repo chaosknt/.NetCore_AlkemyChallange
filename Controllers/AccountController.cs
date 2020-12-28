@@ -32,13 +32,13 @@ namespace AlkemyChallange.Controllers
 
         // Account/CreateAccount  --> Usado para crear los usuarios para hacer pruebas
 
-        [Authorize(Roles = "Administrador")]
+        [Authorize(Roles = RolesName.Administrador)]
         public IActionResult CreateAccount()
         {
             return View();
         }
 
-        [Authorize(Roles = "Administrador")]
+        [Authorize(Roles = RolesName.Administrador)]
         [HttpPost]
         public async Task<IActionResult> CreateAccount(CreateAccountViewModel model)
         {
